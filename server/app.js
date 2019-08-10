@@ -120,6 +120,7 @@ app.post('/login', function (req, res) {
           res.redirect('/login');
         }
       }
+
     })
     .catch(err => {
       console.log(err, "this is the error");

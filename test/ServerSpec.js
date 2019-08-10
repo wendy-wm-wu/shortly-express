@@ -375,7 +375,7 @@ describe('', function() {
 //THIS IS WHERE WE'RE AT
 //THIS IS WHERE WE'RE AT
     describe('Session Parser', function() {
-      it('initializes a new session when there are no cookies on the request', function(done) {
+      it.only('initializes a new session when there are no cookies on the request', function(done) {
         var requestWithoutCookies = httpMocks.createRequest();
         var response = httpMocks.createResponse();
 

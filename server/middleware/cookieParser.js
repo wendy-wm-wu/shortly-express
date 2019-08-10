@@ -1,5 +1,4 @@
 const parseCookies = (req, res, next) => {
-    console.log(req.headers)
     if (Object.keys(req.headers).length > 0) {
       var cookiesString = ""+req.headers.cookie;
       let cookiesArray = cookiesString.split('; ').map((item) => {
@@ -10,7 +9,6 @@ const parseCookies = (req, res, next) => {
         cookies[arr[0]] = arr[1];
       }
       req.cookies = cookies;
-      console.log(req.cookies);
     } else {
       req.cookies = {};
     }
