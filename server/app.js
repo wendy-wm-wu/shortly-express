@@ -5,8 +5,8 @@ const partials = require('express-partials');
 const bodyParser = require('body-parser');
 const Auth = require('./middleware/auth');
 const models = require('./models');
-
 const app = express();
+var db = require('../server/db/index.js')
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
@@ -17,17 +17,17 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 
 
-app.get('/', 
+app.get('/',
 (req, res) => {
   res.render('index');
 });
 
-app.get('/create', 
+app.get('/create',
 (req, res) => {
   res.render('index');
 });
 
-app.get('/links', 
+app.get('/links',
 (req, res, next) => {
   models.Links.getAll()
     .then(links => {
@@ -38,7 +38,7 @@ app.get('/links',
     });
 });
 
-app.post('/links', 
+app.post('/links',
 (req, res, next) => {
   var url = req.body.url;
   if (!models.Links.isValidUrl(url)) {
@@ -77,7 +77,54 @@ app.post('/links',
 /************************************************************/
 // Write your authentication routes here
 /************************************************************/
+app.get('/signup', function (req, res) {
+  res.render('signup');
+  res.send('GET request to the signup page');
+});
 
+app.post('/signup',(req, res) => {
+  var username = req.body.username
+  var password = req.body.password
+  models.Users.create({username, password})
+  .then(results => {
+    res.redirect('/');
+  })
+  .error(error => {
+    res.redirect('/signup');
+  })
+});
+
+app.get('/login', function (req, res) {
+      // return index.Users.get({username: username})
+      //  .then(username => {
+      //    if (username) {
+      //      throw username;
+      //    }
+      //    return res.redirect('/signup');
+      //  }
+      res.render('login');
+  res.send('GET request to the login page');
+});
+
+app.post('/login', function (req, res) {
+  //when user logs in, only username is kept in database with the salt and encrpyted password. user's password will be thrown out in the process.
+  let newObj = {'username': req.body.username};
+    models.Users.get(newObj)
+    .then(results => {
+      if (results === undefined) {
+        res.redirect('/login');
+      } else if (results !== undefined) {
+        if (models.Users.compare(req.body.password, results.password, results.salt)) {
+          res.redirect('/');
+        } else {
+          res.redirect('/login');
+        }
+      }
+    })
+    .catch(err => {
+      console.log(err, "this is the error");
+    })
+});
 
 
 /************************************************************/

@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var mysql = require('mysql');
 var request = require('request');
 var httpMocks = require('node-mocks-http');
-
+var db = require('../server/db/index.js')
 var app = require('../server/app.js');
 var schema = require('../server/db/config.js');
 var port = 4568;
@@ -61,7 +61,7 @@ describe('', function() {
     afterEach(function() { server.close(); });
   });
 
-  describe('Database Schema:', function() {
+  xdescribe('Database Schema:', function() {
     it('contains a users table', function(done) {
       var queryString = 'SELECT * FROM users';
       db.query(queryString, function(err, results) {
@@ -325,7 +325,7 @@ describe('', function() {
     });
   });
 
-  xdescribe('Express Middleware', function() {
+  describe('Express Middleware', function() {
     var cookieParser = require('../server/middleware/cookieParser.js');
     var createSession = require('../server/middleware/auth.js').createSession;
 
@@ -370,7 +370,10 @@ describe('', function() {
         });
       });
     });
-
+//THIS IS WHERE WE'RE AT
+//THIS IS WHERE WE'RE AT
+//THIS IS WHERE WE'RE AT
+//THIS IS WHERE WE'RE AT
     describe('Session Parser', function() {
       it('initializes a new session when there are no cookies on the request', function(done) {
         var requestWithoutCookies = httpMocks.createRequest();
