@@ -61,7 +61,7 @@ describe('', function() {
     afterEach(function() { server.close(); });
   });
 
-  xdescribe('Database Schema:', function() {
+  describe('Database Schema:', function() {
     it('contains a users table', function(done) {
       var queryString = 'SELECT * FROM users';
       db.query(queryString, function(err, results) {
@@ -123,7 +123,7 @@ describe('', function() {
     });
   });
 
-  xdescribe('Account Creation:', function() {
+  describe('Account Creation:', function() {
 
     it('signup creates a new user record', function(done) {
       var options = {
@@ -208,7 +208,7 @@ describe('', function() {
     });
   });
 
-  xdescribe('Account Login:', function() {
+  describe('Account Login:', function() {
 
     beforeEach(function(done) {
       var options = {
@@ -277,7 +277,7 @@ describe('', function() {
     });
   });
 
-  xdescribe('Sessions Schema:', function() {
+  describe('Sessions Schema:', function() {
     it('contains a sessions table', function(done) {
       var queryString = 'SELECT * FROM sessions';
       db.query(queryString, function(err, results) {
@@ -370,17 +370,14 @@ describe('', function() {
         });
       });
     });
-//THIS IS WHERE WE'RE AT
-//THIS IS WHERE WE'RE AT
-//THIS IS WHERE WE'RE AT
-//THIS IS WHERE WE'RE AT
     describe('Session Parser', function() {
-      it.only('initializes a new session when there are no cookies on the request', function(done) {
+      it('initializes a new session when there are no cookies on the request', function(done) {
         var requestWithoutCookies = httpMocks.createRequest();
         var response = httpMocks.createResponse();
 
         createSession(requestWithoutCookies, response, function() {
           var session = requestWithoutCookies.session;
+          // console.log(session, "this is the session")
           expect(session).to.exist;
           expect(session).to.be.an('object');
           expect(session.hash).to.exist;
@@ -483,6 +480,10 @@ describe('', function() {
     });
   });
 
+  //THIS IS WHERE WE'RE AT
+  //THIS IS WHERE WE'RE AT
+  //THIS IS WHERE WE'RE AT
+  //THIS IS WHERE WE'RE AT
   xdescribe('Sessions and cookies', function() {
     var requestWithSession;
     var cookieJar;
@@ -536,8 +537,8 @@ describe('', function() {
         var cookieValue = cookies[0].value;
 
         var queryString = `
-          SELECT users.username FROM users, sessions
-          WHERE sessions.hash = ? AND users.id = sessions.userId
+        SELECT users.username FROM users, sessions
+        WHERE sessions.hash = ? AND users.id = sessions.userId
         `;
 
         db.query(queryString, cookieValue, function(error, users) {
